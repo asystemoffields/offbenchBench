@@ -8,7 +8,7 @@ status: submitted
 
 # Worked example: Open Climate Fix, Quartz Solar Forecast
 
-This is a real contribution, written up to show the protocol end to end. Use it to calibrate what "good" looks like.
+This is a real contribution, written up to show the protocol end to end at the standard tier. Use it to calibrate what "good" looks like for a software change. For what the high-stakes tier demands, see `erdos-ai-precedents.md`.
 
 **Project:** [Open Climate Fix](https://github.com/openclimatefix) is a non-profit that builds open solar and wind forecasting. `open-source-quartz-solar-forecast` predicts output for individual PV sites from numerical weather prediction (NWP) data fetched from Open-Meteo.
 
@@ -16,11 +16,11 @@ This is a real contribution, written up to show the protocol end to end. Use it 
 
 **Discover.** The README itself flagged that one input (`dlwrf`) needed someone to "confirm it is correct". That is a maintainer asking for help in the docs instead of a label.
 
-**Evaluate.** The scores were high on every dimension that matters most:
+**Evaluate.** Standard tier: a wrong forecast costs users, but the fix lands in a reviewed codebase and nobody is relying on the claim until it is merged. The scores were high on every dimension that matters most:
 
-- **Impact:** the flagged input feeds every forecast the package makes.
+- **Stakes:** the flagged input feeds every forecast the package makes.
 - **Verifiability:** the fitted model stores its training feature ranges, so the expected units can be read straight off it, and forecasts can be backtested against public PV data.
-- **Feasibility:** everything is public. There is no private data or special hardware.
+- **Traction:** the mismatch can be reproduced directly from the public model and data. There is no private data or special hardware.
 
 **Solve, first finding.** Checking the one flagged variable turned up a bigger problem. Three other inputs were also in the wrong units: temperature in °C instead of K, wind in km/h instead of m/s, and precipitation per hour instead of per second. `dlwrf` was being fed *shortwave* radiation instead of longwave. The evidence came from the model's own histogram bin edges, a primary source, rather than from documentation. It was **reported as an issue first** ([#375](https://github.com/openclimatefix/open-source-quartz-solar-forecast/issues/375)). The issue included:
 
